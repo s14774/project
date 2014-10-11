@@ -1,13 +1,17 @@
+import java.util.List;
+
+import domain.User;
+import repositories.IRepositoryCatalog;
+import repositories.impl.DummyRepositoryCatalog;
+
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		System.out.println("Hello World !");
-		System.out.println("Hello World !");
-		System.out.println("Hello World !");
-		System.out.println("Hello World !");
-		System.out.println("Hello World !");
+		IRepositoryCatalog catalog = new DummyRepositoryCatalog();
+		
+		List<User> admins = catalog.getUsers().withRole("administrator");
 	}
 
 }
