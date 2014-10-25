@@ -10,7 +10,6 @@ public class DummyPersonRepository implements IRepository<Person>{
 	private DummyDb db;
 	
 	public DummyPersonRepository(DummyDb db) {
-		super();
 		this.db = db;
 	}
 

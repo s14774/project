@@ -39,6 +39,8 @@ public class Person extends Entity {
 		return user;
 	}
 	public void setUser(User user) {
+		if(!this.equals(user.getPerson()))
+			user.setPerson(this);
 		this.user = user;
 	}
 	public List<Address> getAddresses() {
