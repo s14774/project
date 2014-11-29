@@ -5,6 +5,7 @@ import domain.*;
 import repositories.IRepository;
 import repositories.IRepositoryCatalog;
 import repositories.impl.DummyRepositoryCatalog;
+import repositories.impl.UserBuilder;
 import repositories.impl.UserRepository;
 
 
@@ -30,7 +31,7 @@ public class Main {
 			Statement createTable = connection.createStatement();
 			createTable.executeUpdate(createTableSql);
 			*/
-			IRepository<User> users = new UserRepository(connection);
+			IRepository<User> users = new UserRepository(connection, new UserBuilder());
 			users.save(jnowak);
 			List<User> usersFromDb= users.getAll();
 			
