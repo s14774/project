@@ -5,8 +5,11 @@ import domain.*;
 import repositories.IRepository;
 import repositories.IRepositoryCatalog;
 import repositories.impl.DummyRepositoryCatalog;
+import repositories.impl.RepositoryCatalog;
 import repositories.impl.UserBuilder;
 import repositories.impl.UserRepository;
+import unitofwork.IUnitOfWork;
+import unitofwork.UnitOfWork;
 
 
 public class Main {
@@ -21,6 +24,7 @@ public class Main {
 		try {
 			
 			Connection connection = DriverManager.getConnection(url);
+			IUnitOfWork uow = new UnitOfWork(connection);
 			/*
 			String createTableSql = 
 					"CREATE TABLE users("
@@ -31,19 +35,22 @@ public class Main {
 			Statement createTable = connection.createStatement();
 			createTable.executeUpdate(createTableSql);
 			*/
-			IRepository<User> users = new UserRepository(connection, new UserBuilder());
-			users.save(jnowak);
-			List<User> usersFromDb= users.getAll();
+			IRepositoryCatalog catalog = new RepositoryCatalog(connection, uow);
+			
+			
+			catalog.getUsers().save(jnowak);
+			
+			List<User> usersFromDb= catalog.getUsers().getAll();
 			
 			for(User userFromDb: usersFromDb)
 				System.out.println(userFromDb.getId()+" "+userFromDb.getLogin()+" "+userFromDb.getPassword());
 			
-			User u = users.get(2);
+			User u = catalog.getUsers().get(2);
 			u.setPassword("1qaz2wsx");
-			users.update(u);
-			users.delete(usersFromDb.get(0));
-			
-			for(User userFromDb: users.getAll())
+			catalog.getUsers().update(u);
+			catalog.getUsers().delete(usersFromDb.get(0));
+		
+			for(User userFromDb: catalog.getUsers().getAll())
 				System.out.println(userFromDb.getId()+" "+userFromDb.getLogin()+" "+userFromDb.getPassword());
 			
 			

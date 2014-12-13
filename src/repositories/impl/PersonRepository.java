@@ -9,13 +9,14 @@ import java.util.List;
 
 import domain.Person;
 import repositories.IRepository;
+import unitofwork.IUnitOfWork;
 
 public class PersonRepository 
 	extends Repository<Person>{
 
 	protected PersonRepository(Connection connection,
-			IEntityBuilder<Person> builder) {
-		super(connection, builder);
+			IEntityBuilder<Person> builder, IUnitOfWork uow) {
+		super(connection, builder, uow);
 	}
 
 	@Override

@@ -1,21 +1,18 @@
 package repositories.impl;
 
 import java.sql.*;
+import java.util.List;
+
+import repositories.IUserRepository;
+import unitofwork.IUnitOfWork;
+import domain.Role;
 import domain.User;
 
 public class UserRepository 
-extends Repository<User>{
+extends Repository<User> implements IUserRepository{
 
-
-	protected String insertSql=
-			"INSERT INTO users(login,password)"
-			+ "VALUES(?,?)";
-	
-	protected String updateSql=
-		"UPDATE users SET (login,password)=(?,?) WHERE id=?";
-	
-	public UserRepository(Connection connection, IEntityBuilder<User> builder) {
-		super(connection,builder);
+	public UserRepository(Connection connection, IEntityBuilder<User> builder, IUnitOfWork uow) {
+		super(connection,builder, uow);
 	}
 
 	@Override
@@ -25,12 +22,14 @@ extends Repository<User>{
 
 	@Override
 	protected String getUpdateQuery() {
-		return updateSql;
+		return 
+				"UPDATE users SET (login,password)=(?,?) WHERE id=?";
 	}
 
 	@Override
 	protected String getInsertQuery() {
-		return insertSql;
+		return "INSERT INTO users(login,password)"
+				+ "VALUES(?,?)";
 	}
 
 
@@ -49,6 +48,24 @@ extends Repository<User>{
 		update.setInt(3, entity.getId());
 		
 		
+	}
+
+	@Override
+	public List<User> withRole(Role role) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> withRole(String roleName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> withRole(int roleId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
