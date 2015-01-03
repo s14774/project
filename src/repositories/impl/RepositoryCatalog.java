@@ -35,4 +35,9 @@ public class RepositoryCatalog implements IRepositoryCatalog{
 		return null;
 	}
 
+	@Override
+	public void commit() {
+		uow.commit();
+	}
+
 }

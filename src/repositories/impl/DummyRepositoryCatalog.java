@@ -26,4 +26,10 @@ public class DummyRepositoryCatalog implements IRepositoryCatalog{
 		return new DummyRoleRepository(db);
 	}
 
+	@Override
+	public void commit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
