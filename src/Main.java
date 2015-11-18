@@ -39,7 +39,7 @@ public class Main {
 			
 			
 			catalog.getUsers().save(jnowak);
-			
+			uow.commit();
 			List<User> usersFromDb= catalog.getUsers().getAll();
 			
 			for(User userFromDb: usersFromDb)
@@ -48,6 +48,7 @@ public class Main {
 			User u = catalog.getUsers().get(2);
 			u.setPassword("1qaz2wsx");
 			catalog.getUsers().update(u);
+			uow.commit();
 			catalog.getUsers().delete(usersFromDb.get(0));
 		
 			for(User userFromDb: catalog.getUsers().getAll())
