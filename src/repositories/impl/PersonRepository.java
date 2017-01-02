@@ -11,8 +11,7 @@ import domain.Person;
 import repositories.IRepository;
 import unitofwork.IUnitOfWork;
 
-public class PersonRepository 
-	extends Repository<Person>{
+public class PersonRepository extends Repository<Person>{
 
 	protected PersonRepository(Connection connection,
 			IEntityBuilder<Person> builder, IUnitOfWork uow) {

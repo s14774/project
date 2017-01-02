@@ -1,6 +1,7 @@
 package repositories.impl;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import repositories.IUserRepository;
@@ -22,8 +23,7 @@ extends Repository<User> implements IUserRepository{
 
 	@Override
 	protected String getUpdateQuery() {
-		return 
-				"UPDATE users SET (login,password)=(?,?) WHERE id=?";
+		return "UPDATE users SET (login,password)=(?,?) WHERE id=?";
 	}
 
 	@Override
@@ -35,7 +35,7 @@ extends Repository<User> implements IUserRepository{
 
 	@Override
 	protected void setUpInsertQuery(User entity) throws SQLException {
-		
+
 		insert.setString(1, entity.getLogin());
 		insert.setString(2, entity.getPassword());
 		
@@ -47,25 +47,63 @@ extends Repository<User> implements IUserRepository{
 		update.setString(2, entity.getPassword());
 		update.setInt(3, entity.getId());
 		
-		
 	}
 
 	@Override
 	public List<User> withRole(Role role) {
-		// TODO Auto-generated method stub
-		return null;
+		return withRole(role.getId());
 	}
 
 	@Override
 	public List<User> withRole(String roleName) {
-		// TODO Auto-generated method stub
-		return null;
+		String selectByRoleNameSql="SELECT u.* FROM USERS  u,users_userRoles ur,userRoles r "
+				+ "WHERE r.name = ?";
+		PreparedStatement selectRole;
+		ResultSet rs;
+		List<User> list = new ArrayList<>();
+		try {
+			selectRole = connection.prepareStatement(selectByRoleNameSql);
+			selectRole.setString(1, roleName);
+			rs = selectRole.executeQuery();
+			while (rs.next()){
+				User u = new User();
+				u.setLogin(rs.getString("login"));
+				u.setPassword(rs.getString("password"));
+				u.setId(rs.getInt("id"));
+				list.add(u);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 	@Override
 	public List<User> withRole(int roleId) {
-		// TODO Auto-generated method stub
-		return null;
+		String selectByRoleNameSql="SELECT u.* FROM USERS  u,users_userRoles ur,userRoles r "
+				+ "WHERE r.id = ?";
+		PreparedStatement selectRole;
+		ResultSet rs;
+		List<User> list = new ArrayList<>();
+		try {
+			selectRole = connection.prepareStatement(selectByRoleNameSql);
+			selectRole.setInt(1, roleId);
+			rs = selectRole.executeQuery();
+			while (rs.next()){
+				User u = new User();
+				u.setLogin(rs.getString("login"));
+				u.setPassword(rs.getString("password"));
+				u.setId(rs.getInt("id"));
+				list.add(u);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 }
