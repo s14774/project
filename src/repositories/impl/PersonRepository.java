@@ -42,13 +42,13 @@ public class PersonRepository extends Repository<Person>{
 
 	@Override
 	protected String getUpdateQuery() {
-		return "update person set (name,surname,pesel,address)=(?,?,?,?)"
+		return "update person set (firstname,surname,pesel,address)=(?,?,?,?)"
 				+ "where id=?";
 	}
 
 	@Override
 	protected String getInsertQuery() {
-		return "insert into person(name,surname,pesel,address) values(?,?,?,?)";
+		return "insert into person(firstname,surname,pesel,address) values(?,?,?,?)";
 	}
 	
 }

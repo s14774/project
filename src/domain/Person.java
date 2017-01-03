@@ -31,4 +31,9 @@ public class Person extends Entity {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	@Override
+	public String toString() {
+		return "Person [Id=" + getId() + ", firstName=" + firstName + ", surname=" + surname
+				+ ", pesel=" + pesel + ", address=" + address + "]";
+	}
 }

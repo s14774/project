@@ -97,7 +97,11 @@ extends Repository<User> implements IUserRepository{
 
 	@Override
 	public List<User> withRole(int roleId) {
-		String selectByRoleNameSql="SELECT u.* FROM USERS  u,userRoles r "
+		String selectByRoleNameSql="SELECT "
+				+ "u.*,"
+				+ "r.id as roleId,"
+				+ "r.name as roleName "
+				+ "FROM users u,userRoles r,person p "
 				+ "WHERE r.id = ?";
 		PreparedStatement selectRole;
 		ResultSet rs;
@@ -108,9 +112,11 @@ extends Repository<User> implements IUserRepository{
 			rs = selectRole.executeQuery();
 			while (rs.next()){
 				User u = new User();
+				System.out.println(rs.getString("name"));
 				u.setLogin(rs.getString("login"));
 				u.setPassword(rs.getString("password"));
 				u.setId(rs.getInt("id"));
+				//u.setRole(rs.getInt("roleId"));
 				list.add(u);
 			}
 			
