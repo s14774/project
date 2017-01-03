@@ -1,26 +1,17 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class User extends Entity {
 
 	private String login;
 	private String password;
 	private Person person;
+	private Role role;
 	
-	private List<Role> roles;
-	
-	public User()
-	{
-		roles=new ArrayList<Role>();
+	public Role getRoles() {
+		return role;
 	}
-	
-	public List<Role> getRoles() {
-		return roles;
-	}
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setRoles(Role role) {
+		this.role = role;
 	}
 	public String getLogin() {
 		return login;
@@ -42,7 +33,10 @@ public class User extends Entity {
 		if(!this.equals(person.getUser()))
 			person.setUser(this);
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "User [Id=" + getId() + ", login=" + login + ", password=" + password + ", person="
+				+ person + ", role=" + role + "]";
+	}
 	
 }

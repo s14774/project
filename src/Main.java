@@ -63,10 +63,9 @@ public class Main {
 			
 			catalog.getUsers().save(jnowak);
 			uow.commit();
-			List<User> usersFromDb= catalog.getUsers().getAll();
 			
-			for(User userFromDb: usersFromDb)
-				System.out.println(userFromDb.getId()+" "+userFromDb.getLogin()+" "+userFromDb.getPassword());
+			for(User userFromDb: catalog.getUsers().getAll())
+				System.out.println(userFromDb.toString());
 			
 			System.out.println("");
 
@@ -76,8 +75,9 @@ public class Main {
 			uow.commit();
 			//catalog.getUsers().delete(u);
 			//uow.commit();
+			
 			for(User userFromDb: catalog.getUsers().getAll())
-				System.out.println(userFromDb.getId()+" "+userFromDb.getLogin()+" "+userFromDb.getPassword());
+				System.out.println(userFromDb.toString());
 			
 			Role r = new Role();
 			r.setName("rolaAdmin");
