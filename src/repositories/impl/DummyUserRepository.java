@@ -55,20 +55,21 @@ public class DummyUserRepository implements IUserRepository{
 
 	@Override
 	public List<User> withRole(String roleName) {
+		ArrayList<User> list = new ArrayList<User>();
 
-		for(Role r:db.roles)
-			if(r.getName().equals(roleName))
-				return r.getUsers();
-		return new ArrayList<User>();
+		for(User u:db.users)
+			if(u.getRole().getName().equals(roleName))
+				list.add(u);
+		return list;
 	}
 
 	@Override
 	public List<User> withRole(int roleId) {
+		ArrayList<User> list = new ArrayList<User>();
 
-		for(Role r:db.roles)
-			if(r.getId()==roleId)
-				return r.getUsers();
-		return new ArrayList<User>();
+		for(User u:db.users)
+			if(u.getRole().getId() == roleId)
+				list.add(u);
+		return list;
 	}
-
 }

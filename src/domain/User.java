@@ -7,10 +7,10 @@ public class User extends Entity {
 	private Person person;
 	private Role role;
 	
-	public Role getRoles() {
+	public Role getRole() {
 		return role;
 	}
-	public void setRoles(Role role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	public String getLogin() {

@@ -7,12 +7,10 @@ public class Role extends Entity {
 	private String name;
 	
 	private List<Privilege> privileges;
-	private List<User> users;
 	
 	public Role()
 	{
 		privileges=new ArrayList<Privilege>();
-		users= new ArrayList<User>();
 	}
 	
 	public String getName() {
@@ -27,12 +25,10 @@ public class Role extends Entity {
 	public void setPrivileges(List<Privilege> privileges) {
 		this.privileges = privileges;
 	}
-	public List<User> getUsers() {
-		return users;
+
+	@Override
+	public String toString() {
+		return "Role [Id=" + getId() + ", name=" + name + ", privileges=" + privileges + "]";
 	}
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-	
 	
 }
