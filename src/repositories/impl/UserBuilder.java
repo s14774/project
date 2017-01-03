@@ -15,8 +15,6 @@ public class UserBuilder implements IEntityBuilder<User> {
 
 	@Override
 	public User build(ResultSet rs) throws SQLException {
-		//catalog
-		
 		User result = new User();
 		result.setId(rs.getInt("id"));
 		result.setLogin(rs.getString("login"));
