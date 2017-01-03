@@ -22,7 +22,7 @@ public class RepositoryCatalog implements IRepositoryCatalog{
 
 	@Override
 	public IUserRepository getUsers() {
-		return new UserRepository(connection, new UserBuilder(), uow);
+		return new UserRepository(connection, new UserBuilder(this), uow);
 	}
 
 	@Override
