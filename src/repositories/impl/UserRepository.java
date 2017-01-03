@@ -23,13 +23,13 @@ extends Repository<User> implements IUserRepository{
 
 	@Override
 	protected String getUpdateQuery() {
-		return "UPDATE users SET (login,password)=(?,?) WHERE id=?";
+		return "UPDATE users SET (login,password,roleId,personId)=(?,?,?,?) WHERE id=?";
 	}
 
 	@Override
 	protected String getInsertQuery() {
-		return "INSERT INTO users(login,password)"
-				+ "VALUES(?,?)";
+		return "INSERT INTO users(login,password,roleId,personId)"
+				+ "VALUES(?,?,?,?)";
 	}
 
 
@@ -38,14 +38,29 @@ extends Repository<User> implements IUserRepository{
 
 		insert.setString(1, entity.getLogin());
 		insert.setString(2, entity.getPassword());
-		
+		if(entity.getRole() == null)
+			insert.setNull(3, Types.INTEGER);
+		else
+			insert.setInt(3, entity.getRole().getId());
+		if(entity.getPerson() == null)
+			insert.setNull(4, Types.INTEGER);
+		else
+			insert.setInt(4, entity.getPerson().getId());
 	}
 
 	@Override
 	protected void setUpUpdateQuery(User entity) throws SQLException {
 		update.setString(1, entity.getLogin());
 		update.setString(2, entity.getPassword());
-		update.setInt(3, entity.getId());
+		if(entity.getRole() == null)
+			update.setNull(3, Types.INTEGER);
+		else
+			update.setInt(3, entity.getRole().getId());
+		if(entity.getPerson() == null)
+			update.setNull(4, Types.INTEGER);
+		else
+			update.setInt(4, entity.getPerson().getId());
+		update.setInt(5, entity.getId());
 		
 	}
 

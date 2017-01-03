@@ -91,6 +91,8 @@ public class Main {
 			uow.commit();
 			
 			u.setRole(r);
+			catalog.getUsers().update(u);
+			uow.commit();
 			
 			for(Role role: catalog.getRoles().getAll())
 				System.out.println(role.getName());
