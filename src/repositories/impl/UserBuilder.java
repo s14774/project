@@ -20,6 +20,7 @@ public class UserBuilder implements IEntityBuilder<User> {
 		result.setLogin(rs.getString("login"));
 		result.setPassword(rs.getString("password"));
 		result.setRole(catalog.getRoles().get(rs.getInt("roleId")));
+		result.setPerson(catalog.getPersons().get(rs.getInt("personId")));
 		return result;
 	}
 

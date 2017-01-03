@@ -30,8 +30,6 @@ public class User extends Entity {
 	}
 	public void setPerson(Person person) {
 		this.person = person;
-		if(!this.equals(person.getUser()))
-			person.setUser(this);
 	}
 	@Override
 	public String toString() {

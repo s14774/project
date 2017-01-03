@@ -47,7 +47,8 @@ public class UnitOfWork implements IUnitOfWork{
 			case Unchanged:
 				break;
 			default:
-				break;}
+				break;
+			}
 		}
 		
 		try {
@@ -62,16 +63,13 @@ public class UnitOfWork implements IUnitOfWork{
 
 	@Override
 	public void rollback() {
-
 		entities.clear();
-		
 	}
 
 	@Override
 	public void markAsNew(Entity entity, IUnitOfWorkRepository repository) {
 		entity.setState(EntityState.New);
 		entities.put(entity, repository);
-		
 	}
 
 	@Override

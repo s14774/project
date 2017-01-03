@@ -5,8 +5,6 @@ public class Person extends Entity {
 	private String firstName;
 	private String surname;
 	private String pesel;
-	
-	private User user;
 	private String address;
 	
 	public String getFirstName() {
@@ -26,14 +24,6 @@ public class Person extends Entity {
 	}
 	public void setPesel(String pesel) {
 		this.pesel = pesel;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		if(!this.equals(user.getPerson()))
-			user.setPerson(this);
-		this.user = user;
 	}
 	public String getAddress() {
 		return address;

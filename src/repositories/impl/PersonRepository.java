@@ -23,7 +23,8 @@ public class PersonRepository extends Repository<Person>{
 		update.setString(1, entity.getFirstName());
 		update.setString(2, entity.getSurname());
 		update.setString(3, entity.getPesel());
-		update.setInt(4, entity.getId());
+		update.setString(4, entity.getAddress());
+		update.setInt(5, entity.getId());
 	}
 
 	@Override
@@ -31,6 +32,7 @@ public class PersonRepository extends Repository<Person>{
 		insert.setString(1, entity.getFirstName());
 		insert.setString(2, entity.getSurname());
 		insert.setString(3, entity.getPesel());
+		insert.setString(4, entity.getAddress());
 	}
 
 	@Override
@@ -40,13 +42,13 @@ public class PersonRepository extends Repository<Person>{
 
 	@Override
 	protected String getUpdateQuery() {
-		return "update person set (name,surname,pesel)=(?,?,?)"
+		return "update person set (name,surname,pesel,address)=(?,?,?,?)"
 				+ "where id=?";
 	}
 
 	@Override
 	protected String getInsertQuery() {
-		return "insert into person(name,surname,pesel) values(?,?,?)";
+		return "insert into person(name,surname,pesel,address) values(?,?,?,?)";
 	}
 	
 }

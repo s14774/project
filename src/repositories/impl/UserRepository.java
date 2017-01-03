@@ -56,7 +56,7 @@ extends Repository<User> implements IUserRepository{
 
 	@Override
 	public List<User> withRole(String roleName) {
-		String selectByRoleNameSql="SELECT u.* FROM USERS  u,users_userRoles ur,userRoles r "
+		String selectByRoleNameSql="SELECT u.* FROM USERS u,userRoles r "
 				+ "WHERE r.name = ?";
 		PreparedStatement selectRole;
 		ResultSet rs;
@@ -82,7 +82,7 @@ extends Repository<User> implements IUserRepository{
 
 	@Override
 	public List<User> withRole(int roleId) {
-		String selectByRoleNameSql="SELECT u.* FROM USERS  u,users_userRoles ur,userRoles r "
+		String selectByRoleNameSql="SELECT u.* FROM USERS  u,userRoles r "
 				+ "WHERE r.id = ?";
 		PreparedStatement selectRole;
 		ResultSet rs;
