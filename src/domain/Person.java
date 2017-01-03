@@ -1,21 +1,13 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Person extends Entity {
-
-	public Person() {
-		super();
-		this.addresses = new ArrayList<Address>();
-	}
 	
 	private String firstName;
 	private String surname;
 	private String pesel;
 	
 	private User user;
-	private List<Address> addresses;
+	private String address;
 	
 	public String getFirstName() {
 		return firstName;
@@ -43,10 +35,10 @@ public class Person extends Entity {
 			user.setPerson(this);
 		this.user = user;
 	}
-	public List<Address> getAddresses() {
-		return addresses;
+	public String getAddress() {
+		return address;
 	}
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }
