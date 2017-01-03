@@ -72,8 +72,6 @@ public class Main {
 			for(User userFromDb: catalog.getUsers().getAll())
 				System.out.println(userFromDb.toString());
 			
-			System.out.println("");
-
 			User u = catalog.getUsers().get(0);
 			u.setPassword("1qaz2wsx");
 			catalog.getUsers().update(u);
@@ -93,9 +91,6 @@ public class Main {
 			u.setRole(r);
 			catalog.getUsers().update(u);
 			uow.commit();
-			
-			for(Role role: catalog.getRoles().getAll())
-				System.out.println(role.getName());
 			
 			for(User userFromDb: catalog.getUsers().getAll())
 				System.out.println(userFromDb.toString());
