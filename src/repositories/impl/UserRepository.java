@@ -6,6 +6,7 @@ import java.util.List;
 
 import repositories.IUserRepository;
 import unitofwork.IUnitOfWork;
+import domain.Person;
 import domain.Role;
 import domain.User;
 
@@ -104,12 +105,19 @@ extends Repository<User> implements IUserRepository{
 				+ "FROM users u,userRoles r "
 				+ "WHERE r.id = ?";
 		PreparedStatement selectRole;
-		ResultSet rs;
+		
+		String selectPersonById="SELECT *"
+				+ "FROM person p "
+				+ "WHERE p.id = ?";
+		PreparedStatement selectPerson;
+
+		ResultSet rs,rsPerson;
 		List<User> list = new ArrayList<>();
 		try {
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setInt(1, roleId);
 			rs = selectRole.executeQuery();
+			int personId;
 			while (rs.next()){
 				User u = new User();
 				Role r = new Role();
@@ -119,6 +127,22 @@ extends Repository<User> implements IUserRepository{
 				r.setId(rs.getInt("roleId"));
 				r.setName(rs.getString("roleName"));
 				u.setRole(r);
+				
+				personId = rs.getInt("personId");
+				if(rs.wasNull() == false){
+					selectPerson = connection.prepareStatement(selectPersonById);
+					selectPerson.setInt(1, personId);
+					rsPerson = selectPerson.executeQuery();
+					if(rsPerson.next()){
+						Person p = new Person();
+						p.setFirstName(rsPerson.getString("firstname"));
+						p.setSurname(rsPerson.getString("surname"));
+						p.setAddress(rsPerson.getString("address"));
+						p.setPesel(rsPerson.getString("pesel"));
+						u.setPerson(p);
+					}
+				}
+				
 				list.add(u);
 			}
 			

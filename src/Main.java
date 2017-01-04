@@ -56,16 +56,7 @@ public class Main {
 					+ ")";
 			createTable.executeUpdate(createTableSql);
 			
-			/*createTableSql = 
-					"CREATE TABLE IF NOT EXISTS users_userRoles("
-					+ "usersId INT REFERENCES users(id),"
-					+ "userRolesId INT REFERENCES userRoles(id),"
-					+ "CONSTRAINT id PRIMARY KEY (usersId,userRolesId)" 
-					+ ")";
-			createTable.executeQuery(createTableSql);*/
-			
 			IRepositoryCatalog catalog = new RepositoryCatalog(connection, uow);
-			
 			catalog.getUsers().save(jnowak);
 			uow.commit();
 			
