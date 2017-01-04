@@ -99,6 +99,10 @@ public class Main {
 			u.setPerson(p);
 			catalog.getUsers().update(u);
 			uow.commit();
+			p.setAddress("Gdańsk");
+			p.setPesel("012345678901");
+			catalog.getPersons().update(p);
+			uow.commit();
 			
 			for(User userFromDb: catalog.getUsers().getAll())
 				System.out.println(userFromDb.toString());

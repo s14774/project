@@ -101,7 +101,7 @@ extends Repository<User> implements IUserRepository{
 				+ "u.*,"
 				+ "r.id as roleId,"
 				+ "r.name as roleName "
-				+ "FROM users u,userRoles r,person p "
+				+ "FROM users u,userRoles r "
 				+ "WHERE r.id = ?";
 		PreparedStatement selectRole;
 		ResultSet rs;
@@ -112,11 +112,13 @@ extends Repository<User> implements IUserRepository{
 			rs = selectRole.executeQuery();
 			while (rs.next()){
 				User u = new User();
-				System.out.println(rs.getString("name"));
+				Role r = new Role();
 				u.setLogin(rs.getString("login"));
 				u.setPassword(rs.getString("password"));
 				u.setId(rs.getInt("id"));
-				//u.setRole(rs.getInt("roleId"));
+				r.setId(rs.getInt("roleId"));
+				r.setName(rs.getString("roleName"));
+				u.setRole(r);
 				list.add(u);
 			}
 			
