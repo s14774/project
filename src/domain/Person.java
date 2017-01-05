@@ -1,5 +1,7 @@
 package domain;
 
+import domain.helpers.PeselHelper;
+
 public class Person extends Entity {
 	
 	private String firstName;
@@ -20,10 +22,11 @@ public class Person extends Entity {
 		this.surname = surname;
 	}
 	public String getPesel() {
-		return pesel;
+			return pesel;
 	}
 	public void setPesel(String pesel) {
-		this.pesel = pesel;
+		//if(PeselHelper.check(pesel))
+			this.pesel = pesel;
 	}
 	public String getAddress() {
 		return address;
