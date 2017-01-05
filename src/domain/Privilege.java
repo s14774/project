@@ -9,4 +9,8 @@ public class Privilege extends Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		return "Privilege [Id=" + getId() + ", name=" + name + "]";
+	}
 }

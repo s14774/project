@@ -7,6 +7,7 @@ import java.util.List;
 import repositories.IUserRepository;
 import unitofwork.IUnitOfWork;
 import domain.Person;
+import domain.Privilege;
 import domain.Role;
 import domain.User;
 
@@ -75,7 +76,8 @@ extends Repository<User> implements IUserRepository{
 		String selectByRoleNameSql="SELECT "
 				+ "u.*,"
 				+ "r.id as roleId,"
-				+ "r.name as roleName "
+				+ "r.name as roleName,"
+				+ "r.privilegeId as rolePrivilegeId "
 				+ "FROM users u,userRoles r "
 				+ "WHERE r.name = ?";
 		PreparedStatement selectRole;
@@ -84,14 +86,20 @@ extends Repository<User> implements IUserRepository{
 				+ "FROM person p "
 				+ "WHERE p.id = ?";
 		PreparedStatement selectPerson;
+		
+		String selectPrivilegeById="SELECT *"
+				+ "FROM privileges pr "
+				+ "WHERE pr.id = ?";
+		PreparedStatement selectPrivilege;
 
-		ResultSet rs,rsPerson;
+		ResultSet rs,rsPerson,rsPrivilege;
 		List<User> list = new ArrayList<>();
 		try {
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setString(1, roleName);
 			rs = selectRole.executeQuery();
 			int personId;
+			int privilegeId;
 			while (rs.next()){
 				User u = new User();
 				Role r = new Role();
@@ -116,7 +124,17 @@ extends Repository<User> implements IUserRepository{
 						u.setPerson(p);
 					}
 				}
-				
+				privilegeId = rs.getInt("privilegeId");
+				if(rs.wasNull() == false){
+					selectPrivilege = connection.prepareStatement(selectPrivilegeById);
+					selectPrivilege.setInt(1, privilegeId);
+					rsPrivilege = selectPrivilege.executeQuery();
+					if(rsPrivilege.next()){
+						Privilege pr = new Privilege();
+						pr.setName(rsPrivilege.getString("name"));
+						r.setPrivilege(pr);
+					}
+				}
 				list.add(u);
 			}
 			
@@ -132,7 +150,8 @@ extends Repository<User> implements IUserRepository{
 		String selectByRoleNameSql="SELECT "
 				+ "u.*,"
 				+ "r.id as roleId,"
-				+ "r.name as roleName "
+				+ "r.name as roleName,"
+				+ "r.privilegeId as rolePrivilegeId "
 				+ "FROM users u,userRoles r "
 				+ "WHERE r.id = ?";
 		PreparedStatement selectRole;
@@ -141,14 +160,20 @@ extends Repository<User> implements IUserRepository{
 				+ "FROM person p "
 				+ "WHERE p.id = ?";
 		PreparedStatement selectPerson;
+		
+		String selectPrivilegeById="SELECT *"
+				+ "FROM privileges pr "
+				+ "WHERE pr.id = ?";
+		PreparedStatement selectPrivilege;
 
-		ResultSet rs,rsPerson;
+		ResultSet rs,rsPerson,rsPrivilege;
 		List<User> list = new ArrayList<>();
 		try {
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setInt(1, roleId);
 			rs = selectRole.executeQuery();
 			int personId;
+			int privilegeId;
 			while (rs.next()){
 				User u = new User();
 				Role r = new Role();
@@ -171,6 +196,17 @@ extends Repository<User> implements IUserRepository{
 						p.setAddress(rsPerson.getString("address"));
 						p.setPesel(rsPerson.getString("pesel"));
 						u.setPerson(p);
+					}
+				}
+				privilegeId = rs.getInt("privilegeId");
+				if(rs.wasNull() == false){
+					selectPrivilege = connection.prepareStatement(selectPrivilegeById);
+					selectPrivilege.setInt(1, privilegeId);
+					rsPrivilege = selectPrivilege.executeQuery();
+					if(rsPrivilege.next()){
+						Privilege pr = new Privilege();
+						pr.setName(rsPrivilege.getString("name"));
+						r.setPrivilege(pr);
 					}
 				}
 				list.add(u);

@@ -33,7 +33,7 @@ public class RepositoryCatalog implements IRepositoryCatalog{
 
 	@Override
 	public IRepository<Role> getRoles() {
-		return new RoleRepository(connection, new RoleBuilder(), uow);
+		return new RoleRepository(connection, new RoleBuilder(this), uow);
 	}
 
 	@Override

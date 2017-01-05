@@ -112,13 +112,10 @@ public class Main {
 			
 			Privilege pr = new Privilege();
 			pr.setName("Pelen dostep");
+			r.setPrivilege(pr);
 			catalog.getPrivileges().save(pr);
-			catalog.getRoles().get(0).setPrivilege(pr);
-			catalog.getRoles().update(catalog.getRoles().get(0));
+			catalog.getRoles().update(r);
 			uow.commit();
-			
-			for(Role role: catalog.getRoles().getAll())
-				System.out.println(role.toString());
 			
 			for(User userFromDb: catalog.getUsers().getAll())
 				System.out.println(userFromDb.toString());
