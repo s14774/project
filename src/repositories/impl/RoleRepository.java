@@ -2,6 +2,7 @@ package repositories.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import domain.Role;
 import unitofwork.IUnitOfWork;
@@ -15,13 +16,21 @@ public class RoleRepository extends Repository<Role> {
 
 	@Override
 	protected void setUpUpdateQuery(Role entity) throws SQLException {
-		insert.setString(1, entity.getName());
-		update.setInt(2, entity.getId());
+		update.setString(1, entity.getName());
+		if(entity.getPrivilege() == null)
+			update.setNull(2, Types.INTEGER);
+		else
+			update.setInt(2, entity.getPrivilege().getId());
+		update.setInt(3, entity.getId());
 	}
 
 	@Override
 	protected void setUpInsertQuery(Role entity) throws SQLException {
 		insert.setString(1, entity.getName());
+		if(entity.getPrivilege() == null)
+			insert.setNull(2, Types.INTEGER);
+		else
+			insert.setInt(2, entity.getPrivilege().getId());
 	}
 
 	@Override
@@ -31,11 +40,11 @@ public class RoleRepository extends Repository<Role> {
 
 	@Override
 	protected String getUpdateQuery() {
-		return "update userRoles set (name)=(?) where id=?;";
+		return "update "+ getTableName() +" set (name,privilegeId)=(?,?) where id=?;";
 	}
 
 	@Override
 	protected String getInsertQuery() {
-		return "insert into userRoles(name) values(?)";
+		return "insert into "+ getTableName() +"(name,privilegeId) values(?,?)";
 	}
 }

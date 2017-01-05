@@ -3,6 +3,7 @@ package repositories.impl;
 import java.sql.Connection;
 
 import domain.Person;
+import domain.Privilege;
 import domain.Role;
 import repositories.IRepository;
 import repositories.IRepositoryCatalog;
@@ -38,6 +39,11 @@ public class RepositoryCatalog implements IRepositoryCatalog{
 	@Override
 	public void commit() {
 		uow.commit();
+	}
+
+	@Override
+	public IRepository<Privilege> getPrivileges() {
+		return new PrivilegeRepository(connection, new PrivilegeBuilder(), uow);
 	}
 
 }

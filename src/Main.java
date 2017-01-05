@@ -79,9 +79,6 @@ public class Main {
 			//catalog.getUsers().delete(u);
 			//uow.commit();
 			
-			for(User userFromDb: catalog.getUsers().getAll())
-				System.out.println(userFromDb.toString());
-			
 			Role r = new Role();
 			r.setName("rolaAdmin");
 			catalog.getRoles().save(r);
@@ -108,9 +105,23 @@ public class Main {
 			
 			User u2 = new User();
 			u2.setLogin("s14774");
-			u2.setPassword("alamakota13");
+			u2.setPassword("alaNiEmak0ta13");
 			u2.setRole(catalog.getRoles().get(0));
-			System.out.println(u2);
+			u2.setPerson(p);
+			catalog.getUsers().save(u2);
+			
+			Privilege pr = new Privilege();
+			pr.setName("Pelen dostep");
+			catalog.getPrivileges().save(pr);
+			catalog.getRoles().get(0).setPrivilege(pr);
+			catalog.getRoles().update(catalog.getRoles().get(0));
+			uow.commit();
+			
+			for(Role role: catalog.getRoles().getAll())
+				System.out.println(role.toString());
+			
+			for(User userFromDb: catalog.getUsers().getAll())
+				System.out.println(userFromDb.toString());
 			
 			System.out.println(catalog.getUsers().withRole(r.getName()).toString());
 			

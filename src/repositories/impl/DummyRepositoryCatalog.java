@@ -1,6 +1,7 @@
 package repositories.impl;
 
 import domain.Person;
+import domain.Privilege;
 import domain.Role;
 import repositories.IRepository;
 import repositories.IRepositoryCatalog;
@@ -30,6 +31,12 @@ public class DummyRepositoryCatalog implements IRepositoryCatalog{
 	public void commit() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public IRepository<Privilege> getPrivileges() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

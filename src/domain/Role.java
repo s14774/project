@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.*;
-
 public class Role extends Entity {
 
 	private String name;
@@ -22,7 +20,7 @@ public class Role extends Entity {
 	}
 	@Override
 	public String toString() {
-		return "Role [Id=" + getId() + ", name=" + name + ", privileges=" + privilege + "]";
+		return "Role [Id=" + getId() + ", name=" + name + ", privilege=" + privilege + "]";
 	}
 	
 }
