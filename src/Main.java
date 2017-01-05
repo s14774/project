@@ -96,7 +96,7 @@ public class Main {
 			catalog.getUsers().update(u);
 			uow.commit();
 			p.setAddress("Gdańsk");
-			p.setPesel("012345678901");
+			p.setPesel("92080813876");
 			catalog.getPersons().update(p);
 			uow.commit();
 			
