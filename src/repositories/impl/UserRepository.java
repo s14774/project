@@ -72,20 +72,51 @@ extends Repository<User> implements IUserRepository{
 
 	@Override
 	public List<User> withRole(String roleName) {
-		String selectByRoleNameSql="SELECT u.* FROM USERS u,userRoles r "
+		String selectByRoleNameSql="SELECT "
+				+ "u.*,"
+				+ "r.id as roleId,"
+				+ "r.name as roleName "
+				+ "FROM users u,userRoles r "
 				+ "WHERE r.name = ?";
 		PreparedStatement selectRole;
-		ResultSet rs;
+		
+		String selectPersonById="SELECT *"
+				+ "FROM person p "
+				+ "WHERE p.id = ?";
+		PreparedStatement selectPerson;
+
+		ResultSet rs,rsPerson;
 		List<User> list = new ArrayList<>();
 		try {
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setString(1, roleName);
 			rs = selectRole.executeQuery();
+			int personId;
 			while (rs.next()){
 				User u = new User();
+				Role r = new Role();
 				u.setLogin(rs.getString("login"));
 				u.setPassword(rs.getString("password"));
 				u.setId(rs.getInt("id"));
+				r.setId(rs.getInt("roleId"));
+				r.setName(rs.getString("roleName"));
+				u.setRole(r);
+				
+				personId = rs.getInt("personId");
+				if(rs.wasNull() == false){
+					selectPerson = connection.prepareStatement(selectPersonById);
+					selectPerson.setInt(1, personId);
+					rsPerson = selectPerson.executeQuery();
+					if(rsPerson.next()){
+						Person p = new Person();
+						p.setFirstName(rsPerson.getString("firstname"));
+						p.setSurname(rsPerson.getString("surname"));
+						p.setAddress(rsPerson.getString("address"));
+						p.setPesel(rsPerson.getString("pesel"));
+						u.setPerson(p);
+					}
+				}
+				
 				list.add(u);
 			}
 			
@@ -142,7 +173,6 @@ extends Repository<User> implements IUserRepository{
 						u.setPerson(p);
 					}
 				}
-				
 				list.add(u);
 			}
 			
