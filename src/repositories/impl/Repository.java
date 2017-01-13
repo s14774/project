@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public abstract class Repository<TEntity extends Entity>
 	
 	protected IUnitOfWork uow;
 	protected Connection connection;
+	protected Statement createTable;
 	protected PreparedStatement selectByID;
 	protected PreparedStatement insert;
 	protected PreparedStatement delete;
@@ -42,7 +44,22 @@ public abstract class Repository<TEntity extends Entity>
 		this.uow=uow;
 		this.builder=builder;
 		this.connection = connection;
+		
 		try {
+			createTable = connection.createStatement();
+			
+			ResultSet rs = connection.getMetaData().getTables(null, null, null,
+					null);
+			boolean tableExists = false;
+			while (rs.next()) {
+				if (getTableName().equalsIgnoreCase(rs.getString("TABLE_NAME"))) {
+					tableExists = true;
+					break;
+				}
+			}
+			if (!tableExists)
+				createTable.executeUpdate(getCreateTableQuery());
+			
 			selectByID=connection.prepareStatement(selectByIDSql);
 			insert = connection.prepareStatement(getInsertQuery());
 			delete = connection.prepareStatement(deleteSql);
@@ -151,6 +168,7 @@ public abstract class Repository<TEntity extends Entity>
 	protected abstract void setUpUpdateQuery(TEntity entity) throws SQLException;
 	protected abstract void setUpInsertQuery(TEntity entity) throws SQLException;
 	protected abstract String getTableName();
+	protected abstract String getCreateTableQuery();
 	protected abstract String getUpdateQuery();
 	protected abstract String getInsertQuery();
 }

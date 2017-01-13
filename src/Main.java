@@ -11,9 +11,6 @@ public class Main {
 	public static void main(String[] args) {
 
 		String url="jdbc:hsqldb:hsql://localhost/workdb";
-		User jnowak = new User();
-		jnowak.setLogin("aurbanow");
-		jnowak.setPassword("qwerty");
 		
 		try {
 			
@@ -24,7 +21,7 @@ public class Main {
 					"DROP SCHEMA PUBLIC CASCADE";
 			Statement clearDB = connection.createStatement();
 			clearDB.executeUpdate(clearDBSQL);
-			
+			/*
 			String createTableSql;
 			Statement createTable;
 			createTable = connection.createStatement();
@@ -63,8 +60,29 @@ public class Main {
 					+ "personId INT REFERENCES person(id)"
 					+ ")";
 			createTable.executeUpdate(createTableSql);
+			*/
 			
 			IRepositoryCatalog catalog = new RepositoryCatalog(connection, uow);
+			
+			Privilege pr = new Privilege();
+			pr.setName("Pelen dostep");
+			catalog.getPrivileges().save(pr);
+			//uow.commit();
+			
+			Role r = new Role();
+			r.setName("rolaAdmin");
+			catalog.getRoles().save(r);
+			//uow.commit();
+			
+			Person p = new Person();
+			p.setFirstName("Mateusz");
+			p.setSurname("Sz");
+			catalog.getPersons().save(p);
+			//uow.commit();
+			
+			User jnowak = new User();
+			jnowak.setLogin("aurbanow");
+			jnowak.setPassword("qwerty");
 			catalog.getUsers().save(jnowak);
 			uow.commit();
 			
@@ -79,19 +97,10 @@ public class Main {
 			//catalog.getUsers().delete(u);
 			//uow.commit();
 			
-			Role r = new Role();
-			r.setName("rolaAdmin");
-			catalog.getRoles().save(r);
-			uow.commit();
-			
 			u.setRole(r);
 			catalog.getUsers().update(u);
 			uow.commit();
 			
-			Person p = new Person();
-			p.setFirstName("Mateusz");
-			p.setSurname("Sz");
-			catalog.getPersons().save(p);
 			u.setPerson(p);
 			catalog.getUsers().update(u);
 			uow.commit();
@@ -110,10 +119,7 @@ public class Main {
 			u2.setPerson(p);
 			catalog.getUsers().save(u2);
 			
-			Privilege pr = new Privilege();
-			pr.setName("Pelen dostep");
 			r.setPrivilege(pr);
-			catalog.getPrivileges().save(pr);
 			catalog.getRoles().update(r);
 			uow.commit();
 			
