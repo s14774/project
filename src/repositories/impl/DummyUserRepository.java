@@ -72,4 +72,14 @@ public class DummyUserRepository implements IUserRepository{
 				list.add(u);
 		return list;
 	}
+
+	@Override
+	public List<User> withName(String name) {
+		ArrayList<User> list = new ArrayList<User>();
+
+		for(User u:db.users)
+			if(u.getRole().getName() == name)
+				list.add(u);
+		return list;
+	}
 }

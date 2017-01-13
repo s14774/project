@@ -15,7 +15,7 @@ import unitofwork.UnitOfWork;
 public class RepositoryCRUDTest {
 
 	@Test
-	public void test() throws SQLException {
+	public void testCreateTable() throws SQLException {
 				Connection connection = DriverManager.getConnection(
 						"jdbc:hsqldb:hsql://localhost/workdb");
 				IUnitOfWork uow = new UnitOfWork(connection);
@@ -30,15 +30,32 @@ public class RepositoryCRUDTest {
 				catalog.getRoles().save(r);
 				
 				Person p = new Person();
-				p.setFirstName("Test Person Name");
-				p.setSurname("Test Person Surname");
+				p.setFirstName("Testperson Name");
+				p.setSurname("Testperson Surname");
 				catalog.getPersons().save(p);
 				
-				User jnowak = new User();
-				jnowak.setLogin("Test User Login");
-				jnowak.setPassword("Test User Password");
-				catalog.getUsers().save(jnowak);
+				User u = new User();
+				u.setLogin("TestUserLogin");
+				u.setPassword("Test User Password");
+				catalog.getUsers().save(u);
 				uow.commit();
+				
+				connection.close();
+				connection = null;
+	}
+	
+	@Test
+	public void testUpdateTable() throws SQLException {
+		Connection connection = DriverManager.getConnection(
+				"jdbc:hsqldb:hsql://localhost/workdb");
+		IUnitOfWork uow = new UnitOfWork(connection);
+		IRepositoryCatalog catalog = new RepositoryCatalog(connection, uow);
+		
+		User u = catalog.getUsers().get(0);
+	}
+	
+	public void testRemoveUser() throws SQLException {
+		
 	}
 
 }
