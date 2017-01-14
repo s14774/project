@@ -74,11 +74,11 @@ public class DummyUserRepository implements IUserRepository{
 	}
 
 	@Override
-	public List<User> withName(String name) {
+	public List<User> withLogin(String login) {
 		ArrayList<User> list = new ArrayList<User>();
 
 		for(User u:db.users)
-			if(u.getRole().getName() == name)
+			if(u.getLogin() == login)
 				list.add(u);
 		return list;
 	}

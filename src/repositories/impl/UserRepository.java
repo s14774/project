@@ -84,68 +84,20 @@ extends Repository<User> implements IUserRepository{
 	@Override
 	public List<User> withRole(String roleName) {
 		String selectByRoleNameSql="SELECT "
-				+ "u.*,"
-				+ "r.id as roleId,"
-				+ "r.name as roleName,"
-				+ "r.privilegeId as rolePrivilegeId "
+				+ "u.* "
 				+ "FROM users u,userRoles r "
 				+ "WHERE r.name = ?";
 		PreparedStatement selectRole;
-		
-		String selectPersonById="SELECT *"
-				+ "FROM person p "
-				+ "WHERE p.id = ?";
-		PreparedStatement selectPerson;
-		
-		String selectPrivilegeById="SELECT *"
-				+ "FROM privileges pr "
-				+ "WHERE pr.id = ?";
-		PreparedStatement selectPrivilege;
 
-		ResultSet rs,rsPerson,rsPrivilege;
+		ResultSet rs;
 		List<User> list = new ArrayList<>();
 		try {
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setString(1, roleName);
 			rs = selectRole.executeQuery();
-			int personId;
-			int privilegeId;
+
 			while (rs.next()){
-				User u = new User();
-				Role r = new Role();
-				u.setLogin(rs.getString("login"));
-				u.setPassword(rs.getString("password"));
-				u.setId(rs.getInt("id"));
-				r.setId(rs.getInt("roleId"));
-				r.setName(rs.getString("roleName"));
-				u.setRole(r);
-				
-				personId = rs.getInt("personId");
-				if(rs.wasNull() == false){
-					selectPerson = connection.prepareStatement(selectPersonById);
-					selectPerson.setInt(1, personId);
-					rsPerson = selectPerson.executeQuery();
-					if(rsPerson.next()){
-						Person p = new Person();
-						p.setFirstName(rsPerson.getString("firstname"));
-						p.setSurname(rsPerson.getString("surname"));
-						p.setAddress(rsPerson.getString("address"));
-						p.setPesel(rsPerson.getString("pesel"));
-						u.setPerson(p);
-					}
-				}
-				privilegeId = rs.getInt("privilegeId");
-				if(rs.wasNull() == false){
-					selectPrivilege = connection.prepareStatement(selectPrivilegeById);
-					selectPrivilege.setInt(1, privilegeId);
-					rsPrivilege = selectPrivilege.executeQuery();
-					if(rsPrivilege.next()){
-						Privilege pr = new Privilege();
-						pr.setName(rsPrivilege.getString("name"));
-						r.setPrivilege(pr);
-					}
-				}
-				list.add(u);
+				list.add(builder.build(rs));
 			}
 			
 		} catch (SQLException e) {
@@ -158,68 +110,20 @@ extends Repository<User> implements IUserRepository{
 	@Override
 	public List<User> withRole(int roleId) {
 		String selectByRoleNameSql="SELECT "
-				+ "u.*,"
-				+ "r.id as roleId,"
-				+ "r.name as roleName,"
-				+ "r.privilegeId as rolePrivilegeId "
+				+ "u.* "
 				+ "FROM users u,userRoles r "
 				+ "WHERE r.id = ?";
 		PreparedStatement selectRole;
-		
-		String selectPersonById="SELECT *"
-				+ "FROM person p "
-				+ "WHERE p.id = ?";
-		PreparedStatement selectPerson;
-		
-		String selectPrivilegeById="SELECT *"
-				+ "FROM privileges pr "
-				+ "WHERE pr.id = ?";
-		PreparedStatement selectPrivilege;
 
-		ResultSet rs,rsPerson,rsPrivilege;
+		ResultSet rs;
 		List<User> list = new ArrayList<>();
 		try {
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setInt(1, roleId);
 			rs = selectRole.executeQuery();
-			int personId;
-			int privilegeId;
+
 			while (rs.next()){
-				User u = new User();
-				Role r = new Role();
-				u.setLogin(rs.getString("login"));
-				u.setPassword(rs.getString("password"));
-				u.setId(rs.getInt("id"));
-				r.setId(rs.getInt("roleId"));
-				r.setName(rs.getString("roleName"));
-				u.setRole(r);
-				
-				personId = rs.getInt("personId");
-				if(rs.wasNull() == false){
-					selectPerson = connection.prepareStatement(selectPersonById);
-					selectPerson.setInt(1, personId);
-					rsPerson = selectPerson.executeQuery();
-					if(rsPerson.next()){
-						Person p = new Person();
-						p.setFirstName(rsPerson.getString("firstname"));
-						p.setSurname(rsPerson.getString("surname"));
-						p.setAddress(rsPerson.getString("address"));
-						p.setPesel(rsPerson.getString("pesel"));
-						u.setPerson(p);
-					}
-				}
-				privilegeId = rs.getInt("privilegeId");
-				if(rs.wasNull() == false){
-					selectPrivilege = connection.prepareStatement(selectPrivilegeById);
-					selectPrivilege.setInt(1, privilegeId);
-					rsPrivilege = selectPrivilege.executeQuery();
-					if(rsPrivilege.next()){
-						Privilege pr = new Privilege();
-						pr.setName(rsPrivilege.getString("name"));
-						r.setPrivilege(pr);
-					}
-				}
-				list.add(u);
+				list.add(builder.build(rs));
 			}
 			
 		} catch (SQLException e) {
@@ -230,59 +134,21 @@ extends Repository<User> implements IUserRepository{
 	}
 
 	@Override
-	public List<User> withName(String name) {
-		String selectByNameSql="SELECT "
-				+ "u.*,"
+	public List<User> withLogin(String login) {
+		String selectByLoginSql="SELECT * "
 				+ "FROM users u "
-				+ "WHERE u.name = ?";
+				+ "WHERE u.login = ?";
 		PreparedStatement selectUser;
-		
-		String selectPersonById="SELECT *"
-				+ "FROM person p "
-				+ "WHERE p.id = ?";
-		PreparedStatement selectPerson;
-		
-		String selectRoleById="SELECT *"
-				+ "FROM userRoles r "
-				+ "WHERE r.id = ?";
-		PreparedStatement selectRole;
-		
-		String selectPrivilegeById="SELECT *"
-				+ "FROM privileges pr "
-				+ "WHERE pr.id = ?";
-		PreparedStatement selectPrivilege;
 
-		ResultSet rs,rsPerson,rsPrivilege;
+		ResultSet rs;
 		List<User> list = new ArrayList<>();
 		try {
-			selectRole = connection.prepareStatement(selectByNameSql);
-			selectRole.setString(1, name);
-			rs = selectRole.executeQuery();
-			int personId;
-			int roleId;
+			selectUser = connection.prepareStatement(selectByLoginSql);
+			selectUser.setString(1, login);
+			rs = selectUser.executeQuery();
 			while (rs.next()){
-				User u = new User();
-				u.setLogin(rs.getString("login"));
-				u.setPassword(rs.getString("password"));
-				u.setId(rs.getInt("id"));
-				
-				personId = rs.getInt("personId");
-				if(rs.wasNull() == false){
-					selectPerson = connection.prepareStatement(selectPersonById);
-					selectPerson.setInt(1, personId);
-					rsPerson = selectPerson.executeQuery();
-					if(rsPerson.next()){
-						Person p = new Person();
-						p.setFirstName(rsPerson.getString("firstname"));
-						p.setSurname(rsPerson.getString("surname"));
-						p.setAddress(rsPerson.getString("address"));
-						p.setPesel(rsPerson.getString("pesel"));
-						u.setPerson(p);
-					}
-				}
-				list.add(u);
+				list.add(builder.build(rs));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

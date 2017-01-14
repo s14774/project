@@ -83,7 +83,7 @@ public class Main {
 			catalog.getRoles().update(r);
 			uow.commit();
 			
-			for(User userFromDb: catalog.getUsers().getAll())
+			for(User userFromDb: catalog.getUsers().withLogin("s14774"))
 				System.out.println(userFromDb.toString());
 			
 			System.out.println(catalog.getUsers().withRole(r.getName()).toString());
