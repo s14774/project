@@ -1,13 +1,19 @@
 package repositories.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
+import repositories.IRoleRepository;
+import domain.Person;
 import domain.Role;
 import unitofwork.IUnitOfWork;
 
-public class RoleRepository extends Repository<Role> {
+public class RoleRepository extends Repository<Role> implements IRoleRepository{
 	
 	protected RoleRepository(Connection connection,
 			IEntityBuilder<Role> builder, IUnitOfWork uow) {
@@ -55,5 +61,26 @@ public class RoleRepository extends Repository<Role> {
 				+ "privilegeId INT REFERENCES privileges(id),"
 				+ "name VARCHAR(20) UNIQUE" 
 				+ ")";
+	}
+
+	@Override
+	public List<Role> withName(String name) {
+		String selectByNameSql="SELECT * FROM "
+				+ getTableName()
+				+ "WHERE name = ?";
+		PreparedStatement selectRole;
+		ResultSet rs;
+		List<Role> list = new ArrayList<>();
+		try {
+			selectRole = connection.prepareStatement(selectByNameSql);
+			selectRole.setString(1, name);
+			rs = selectRole.executeQuery();
+			while (rs.next()){
+				list.add(builder.build(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

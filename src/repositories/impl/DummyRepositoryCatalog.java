@@ -4,8 +4,10 @@ import domain.Person;
 import domain.Privilege;
 import domain.Role;
 import repositories.IPersonRepository;
+import repositories.IPrivilegeRepository;
 import repositories.IRepository;
 import repositories.IRepositoryCatalog;
+import repositories.IRoleRepository;
 import repositories.IUserRepository;
 
 public class DummyRepositoryCatalog implements IRepositoryCatalog{
@@ -23,20 +25,17 @@ public class DummyRepositoryCatalog implements IRepositoryCatalog{
 	}
 
 	@Override
-	public IRepository<Role> getRoles() {
-		// TODO Auto-generated method stub
-		return new DummyRoleRepository(db);
+	public IRoleRepository getRoles() {
+		return null;
 	}
 
 	@Override
 	public void commit() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public IRepository<Privilege> getPrivileges() {
-		// TODO Auto-generated method stub
+	public IPrivilegeRepository getPrivileges() {
 		return null;
 	}
 

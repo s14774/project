@@ -6,8 +6,10 @@ import domain.Person;
 import domain.Privilege;
 import domain.Role;
 import repositories.IPersonRepository;
+import repositories.IPrivilegeRepository;
 import repositories.IRepository;
 import repositories.IRepositoryCatalog;
+import repositories.IRoleRepository;
 import repositories.IUserRepository;
 import unitofwork.IUnitOfWork;
 
@@ -23,6 +25,11 @@ public class RepositoryCatalog implements IRepositoryCatalog{
 	}
 
 	@Override
+	public void commit() {
+		uow.commit();
+	}
+
+	@Override
 	public IUserRepository getUsers() {
 		return new UserRepository(connection, new UserBuilder(this), uow);
 	}
@@ -33,17 +40,12 @@ public class RepositoryCatalog implements IRepositoryCatalog{
 	}
 
 	@Override
-	public IRepository<Role> getRoles() {
+	public IRoleRepository getRoles() {
 		return new RoleRepository(connection, new RoleBuilder(this), uow);
 	}
 
 	@Override
-	public void commit() {
-		uow.commit();
-	}
-
-	@Override
-	public IRepository<Privilege> getPrivileges() {
+	public IPrivilegeRepository getPrivileges() {
 		return new PrivilegeRepository(connection, new PrivilegeBuilder(), uow);
 	}
 
