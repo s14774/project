@@ -11,8 +11,7 @@ import domain.Privilege;
 import domain.Role;
 import domain.User;
 
-public class UserRepository 
-extends Repository<User> implements IUserRepository{
+public class UserRepository extends Repository<User> implements IUserRepository{
 
 	public UserRepository(Connection connection, IEntityBuilder<User> builder, IUnitOfWork uow) {
 		super(connection,builder, uow);
@@ -88,22 +87,18 @@ extends Repository<User> implements IUserRepository{
 				+ "FROM users u,userRoles r "
 				+ "WHERE r.name = ?";
 		PreparedStatement selectRole;
-
 		ResultSet rs;
 		List<User> list = new ArrayList<>();
 		try {
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setString(1, roleName);
 			rs = selectRole.executeQuery();
-
 			while (rs.next()){
 				list.add(builder.build(rs));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return list;
 	}
 
@@ -121,15 +116,12 @@ extends Repository<User> implements IUserRepository{
 			selectRole = connection.prepareStatement(selectByRoleNameSql);
 			selectRole.setInt(1, roleId);
 			rs = selectRole.executeQuery();
-
 			while (rs.next()){
 				list.add(builder.build(rs));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return list;
 	}
 
@@ -139,7 +131,6 @@ extends Repository<User> implements IUserRepository{
 				+ "FROM users u "
 				+ "WHERE u.login = ?";
 		PreparedStatement selectUser;
-
 		ResultSet rs;
 		List<User> list = new ArrayList<>();
 		try {
@@ -152,7 +143,6 @@ extends Repository<User> implements IUserRepository{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return list;
 	}
 

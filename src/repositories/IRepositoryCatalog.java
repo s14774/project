@@ -5,7 +5,7 @@ import domain.*;
 public interface IRepositoryCatalog {
 
 	public IUserRepository getUsers();
-	public IRepository<Person> getPersons();
+	public IPersonRepository getPersons();
 	public IRepository<Role> getRoles();
 	public IRepository<Privilege> getPrivileges();
 	public void commit();

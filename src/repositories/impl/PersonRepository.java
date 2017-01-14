@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Person;
+import domain.User;
+import repositories.IPersonRepository;
 import repositories.IRepository;
 import unitofwork.IUnitOfWork;
 
-public class PersonRepository extends Repository<Person>{
+public class PersonRepository extends Repository<Person> implements IPersonRepository{
 
 	protected PersonRepository(Connection connection,
 			IEntityBuilder<Person> builder, IUnitOfWork uow) {
@@ -60,6 +62,27 @@ public class PersonRepository extends Repository<Person>{
 				+ "pesel VARCHAR(12)," 
 				+ "address VARCHAR(255)" 
 				+ ")";
+	}
+
+	@Override
+	public List<Person> withSurname(String surname) {
+		String selectBySurnameSql="SELECT * FROM "
+				+ getTableName()
+				+ "WHERE surname = ?";
+		PreparedStatement selectPerson;
+		ResultSet rs;
+		List<Person> list = new ArrayList<>();
+		try {
+			selectPerson = connection.prepareStatement(selectBySurnameSql);
+			selectPerson.setString(1, surname);
+			rs = selectPerson.executeQuery();
+			while (rs.next()){
+				list.add(builder.build(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 }

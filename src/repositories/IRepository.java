@@ -2,6 +2,8 @@ package repositories;
 
 import java.util.List;
 
+import domain.Person;
+
 public interface IRepository<TEntity> {
 
 	public void save(TEntity entity);

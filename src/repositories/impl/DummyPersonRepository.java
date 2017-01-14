@@ -1,11 +1,14 @@
 package repositories.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import domain.Person;
+import domain.User;
+import repositories.IPersonRepository;
 import repositories.IRepository;
 
-public class DummyPersonRepository implements IRepository<Person>{
+public class DummyPersonRepository implements IPersonRepository {
 
 	private DummyDb db;
 	
@@ -44,6 +47,16 @@ public class DummyPersonRepository implements IRepository<Person>{
 	@Override
 	public List<Person> getAll() {
 		return db.persons;
+	}
+
+	@Override
+	public List<Person> withSurname(String surname) {
+		ArrayList<Person> list = new ArrayList<Person>();
+
+		for(Person p:db.persons)
+			if(p.getSurname() == surname)
+				list.add(p);
+		return list;
 	}
 
 }

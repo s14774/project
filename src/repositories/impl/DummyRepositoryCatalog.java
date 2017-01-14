@@ -3,6 +3,7 @@ package repositories.impl;
 import domain.Person;
 import domain.Privilege;
 import domain.Role;
+import repositories.IPersonRepository;
 import repositories.IRepository;
 import repositories.IRepositoryCatalog;
 import repositories.IUserRepository;
@@ -17,7 +18,7 @@ public class DummyRepositoryCatalog implements IRepositoryCatalog{
 	}
 
 	@Override
-	public IRepository<Person> getPersons() {
+	public IPersonRepository getPersons() {
 		return new DummyPersonRepository(db);
 	}
 

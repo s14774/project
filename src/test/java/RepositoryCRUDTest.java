@@ -55,7 +55,19 @@ public class RepositoryCRUDTest {
 	}
 	
 	public void testRemoveUser() throws SQLException {
+		Connection connection = DriverManager.getConnection(
+				"jdbc:hsqldb:hsql://localhost/workdb");
+		IUnitOfWork uow = new UnitOfWork(connection);
+		IRepositoryCatalog catalog = new RepositoryCatalog(connection, uow);
 		
+		catalog.getUsers().delete(catalog.getUsers().withLogin("TestUserLogin").get(0));
+		uow.commit();
+		
+		catalog.getPersons().delete(catalog.getPersons().withSurname("Testperson Surname").get(0));
+		uow.commit();
+		
+		catalog.getRoles().delete(catalog.getRoles().withName("Test Role").get(0));
+		uow.commit();
 	}
 
 }
