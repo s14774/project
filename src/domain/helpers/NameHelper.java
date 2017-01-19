@@ -8,7 +8,7 @@ public class NameHelper {
 	}
 	
 	public static boolean checkSurname(String surname) {
-		if(surname.matches("[A-Z][a-z]+(( |-)[A-Z][a-z]+)"))
+		if(surname.matches("^[A-Z][a-z]+(?:|(?: |-)[A-Z][a-z]+)$"))
 			return true;
 		return false;
 	}

@@ -46,17 +46,25 @@ public class RepositoryCRUDTest {
 				
 				connection.close();
 				connection = null;
+				u = null;
+				p = null;
+				r = null;
+				pr = null;
+				uow = null;
+				catalog = null;
+				
+				connection = DriverManager.getConnection(
+						"jdbc:hsqldb:hsql://localhost/workdb");
+				uow = new UnitOfWork(connection);
+				catalog = new RepositoryCatalog(connection, uow);
+				
+				u = catalog.getUsers().withLogin("TestUserLogin").get(0);
+				u.setPassword("UserSecondPassword");
+				catalog.getUsers().update(u);
+				uow.commit();
+				
+				assertEquals("UserSecondPassword", catalog.getUsers().withLogin("TestUserLogin").get(0).getPassword());
 	}
-	
-	/*@Test
-	public void testUpdateTable() throws SQLException {
-		Connection connection = DriverManager.getConnection(
-				"jdbc:hsqldb:hsql://localhost/workdb");
-		IUnitOfWork uow = new UnitOfWork(connection);
-		IRepositoryCatalog catalog = new RepositoryCatalog(connection, uow);
-		
-		User u = catalog.getUsers().get(0);
-	}*/
 	
 	@Test
 	public void testRemoveUser() throws SQLException {
