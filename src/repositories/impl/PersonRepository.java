@@ -68,7 +68,7 @@ public class PersonRepository extends Repository<Person> implements IPersonRepos
 	public List<Person> withSurname(String surname) {
 		String selectBySurnameSql="SELECT * FROM "
 				+ getTableName()
-				+ "WHERE surname = ?";
+				+ " WHERE surname = ?";
 		PreparedStatement selectPerson;
 		ResultSet rs;
 		List<Person> list = new ArrayList<>();

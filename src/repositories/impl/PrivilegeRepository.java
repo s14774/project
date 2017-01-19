@@ -57,7 +57,7 @@ public class PrivilegeRepository extends Repository<Privilege> implements IPrivi
 	public List<Privilege> withName(String name) {
 		String selectByNameSql="SELECT * FROM "
 				+ getTableName()
-				+ "WHERE name = ?";
+				+ " WHERE name = ?";
 		PreparedStatement selectPrivilege;
 		ResultSet rs;
 		List<Privilege> list = new ArrayList<>();

@@ -29,12 +29,14 @@ public class RepositoryCRUDTest {
 				r.setName("Test Role");
 				catalog.getRoles().save(r);
 				uow.commit();
+
 				
 				Person p = new Person();
 				p.setFirstName("Testperson Name");
 				p.setSurname("Testperson Surname");
 				catalog.getPersons().save(p);
 				uow.commit();
+
 				
 				User u = new User();
 				u.setLogin("TestUserLogin");
@@ -56,6 +58,7 @@ public class RepositoryCRUDTest {
 		User u = catalog.getUsers().get(0);
 	}*/
 	
+	@Test
 	public void testRemoveUser() throws SQLException {
 		Connection connection = DriverManager.getConnection(
 				"jdbc:hsqldb:hsql://localhost/workdb");

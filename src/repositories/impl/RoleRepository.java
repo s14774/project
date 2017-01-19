@@ -67,7 +67,7 @@ public class RoleRepository extends Repository<Role> implements IRoleRepository{
 	public List<Role> withName(String name) {
 		String selectByNameSql="SELECT * FROM "
 				+ getTableName()
-				+ "WHERE name = ?";
+				+ " WHERE name = ?";
 		PreparedStatement selectRole;
 		ResultSet rs;
 		List<Role> list = new ArrayList<>();
